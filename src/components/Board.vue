@@ -4,11 +4,7 @@
       <template v-for="(col, colIndex) in 8">
         <v-hover v-slot:default="{ hover }" :key="colIndex">
           <v-col>
-            <v-card
-              :class="[{'hovered-cell': hover},'cell','flex-center']"
-              elevation="3"
-              outlined
-            ></v-card>
+            <v-card :class="[{'hovered-cell': hover},'cell','flex-center']" elevation="3" outlined></v-card>
           </v-col>
         </v-hover>
       </template>
@@ -17,7 +13,16 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  name: "Board",
+  methods: {
+    ...mapActions("board",["setPattern"]),
+  },
+  created() {
+    this.setPattern();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
