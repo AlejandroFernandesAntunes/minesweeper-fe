@@ -13,8 +13,8 @@ const actions = {
     context.commit('fetchBoard', options);
   },
   openCell({ state, commit }, { row, col }) {
-    let pattern = state.pattern
-    let cell = pattern[row][col]
+    let gameBoard = state.gameBoard
+    let cell = gameBoard[row][col]
 
     commit("setCellShow", cell)
   }
@@ -33,9 +33,9 @@ const mutations = {
   fetchBoard(state, options) {
     fetchBoard({
       apollo: apolloClient.defaultClient,
-      rows: options['rows'],
-      cols: options['cols'],
-      difficulty: options['difficulty']
+      rows: parseInt(options['rows']),
+      cols: parseInt(options['cols']),
+      difficulty: parseInt(options['difficulty'])
     })
       .then(response => _get(response, 'data.fetchBoard', {}))
       .then(response => {
