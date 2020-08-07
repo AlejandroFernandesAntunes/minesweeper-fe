@@ -1,11 +1,6 @@
 <template>
   <v-container>
-    <v-row
-      no-gutters
-      v-for="(row, rowIndex) in getPattern"
-      :key="rowIndex"
-      justify="center"
-    >
+    <v-row no-gutters v-for="(row, rowIndex) in this.gameBoard" :key="rowIndex" justify="center">
       <template v-for="(col, colIndex) in row">
         <v-hover v-slot:default="{ hover }" :key="colIndex">
           <v-col>
@@ -14,10 +9,11 @@
               elevation="3"
               outlined
               @click.left.prevent="openCell({row: rowIndex,col: colIndex})"
-              ><div v-if="col.show">
-                <span class="font-weight-bold">{{ col.data }}</span>
-              </div></v-card
             >
+              <div v-if="col.show">
+                <span class="font-weight-bold">{{ col.data }}</span>
+              </div>
+            </v-card>
           </v-col>
         </v-hover>
       </template>
@@ -26,17 +22,17 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Board",
   computed: {
-    ...mapGetters("board", ["getPattern"]),
+    ...mapState("board", ["gameBoard"]),
   },
   methods: {
-    ...mapActions("board", ["setPattern", "openCell"]),
+    ...mapActions("board", ["openCell", "fetchBoard"]),
   },
   created() {
-    this.setPattern();
+    this.fetchBoard({ rows: 10, cols: 10, difficulty: 3 });
   },
 };
 </script>
