@@ -1,10 +1,20 @@
 <template>
   <v-container>
-    <v-row no-gutters v-for="(row, rowIndex) in 8" :key="rowIndex" justify="center">
-      <template v-for="(col, colIndex) in 8">
+    <v-row no-gutters v-for="(row, rowIndex) in getPattern" :key="rowIndex" justify="center">
+      <template v-for="(col, colIndex) in row">
         <v-hover v-slot:default="{ hover }" :key="colIndex">
           <v-col>
-            <v-card :class="[{'hovered-cell': hover},'cell','flex-center']" elevation="3" outlined></v-card>
+            <v-card
+              :class="[{'hovered-cell': hover},'cell','flex-center']"
+              elevation="3"
+              outlined
+              @click.left.prevent="openCell({
+      row: row_idx,
+      col: col_idx
+    })"
+            ><div v-if="col.show">
+        <span class="font-weight-bold">{{ col.data }}</span>
+      </div></v-card>
           </v-col>
         </v-hover>
       </template>
@@ -13,11 +23,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Board",
+  computed: {
+    ...mapGetters("board", ["getPattern"]),
+  },
   methods: {
-    ...mapActions("board",["setPattern"]),
+    ...mapActions("board", ["setPattern", "openCell"]),
   },
   created() {
     this.setPattern();

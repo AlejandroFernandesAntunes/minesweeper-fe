@@ -63,9 +63,15 @@ const actions = {
             : typeof prevUpperCenter === "string" ? cell += 1 : cell;
         }
       }
-      subPattern.push(cell);
+      subPattern.push({cell, show: false});
     }
     return subPattern;
+  },
+  openCell({ state, commit }, { row, col }) {
+    let pattern = state.pattern
+    let cell = pattern[row][col]
+
+    commit("setCellShow", cell)
   }
 };
 
@@ -78,6 +84,9 @@ const getters = {
 const mutations = {
   setPatternState(state, pattern) {
     state.pattern = pattern
+  },
+  setCellShow(_, cell) {
+    cell.show = true
   }
 };
 
