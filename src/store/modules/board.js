@@ -63,7 +63,7 @@ const actions = {
             : typeof prevUpperCenter === "string" ? cell += 1 : cell;
         }
       }
-      subPattern.push({cell, show: false});
+      subPattern.push({data: cell, show: false});
     }
     return subPattern;
   },

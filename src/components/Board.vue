@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <v-row no-gutters v-for="(row, rowIndex) in getPattern" :key="rowIndex" justify="center">
+    <v-row
+      no-gutters
+      v-for="(row, rowIndex) in getPattern"
+      :key="rowIndex"
+      justify="center"
+    >
       <template v-for="(col, colIndex) in row">
         <v-hover v-slot:default="{ hover }" :key="colIndex">
           <v-col>
@@ -8,13 +13,11 @@
               :class="[{'hovered-cell': hover},'cell','flex-center']"
               elevation="3"
               outlined
-              @click.left.prevent="openCell({
-      row: row_idx,
-      col: col_idx
-    })"
-            ><div v-if="col.show">
-        <span class="font-weight-bold">{{ col.data }}</span>
-      </div></v-card>
+              @click.left.prevent="openCell({row: rowIndex,col: colIndex})"
+              ><div v-if="col.show">
+                <span class="font-weight-bold">{{ col.data }}</span>
+              </div></v-card
+            >
           </v-col>
         </v-hover>
       </template>
